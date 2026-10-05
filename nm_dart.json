@@ -1,0 +1,9 @@
+{
+  "name": "nm_dart",
+  "description": "dart Native Messaging Host",
+  "path": "/ABSOLUTE/PATH/TO/native-messaging-dart/nm_dart",
+  "type": "stdio",
+  "allowed_origins": [
+    ""
+  ]
+}
