@@ -1,0 +1,21 @@
+{
+  "name": "nm-dart",
+  "short_name": "nm_dart",
+  "version": "1.0",
+  "manifest_version": 3,
+  "description": "Dart Native Messaging host",
+  "permissions": [
+    "nativeMessaging",
+    "scripting",
+    "tabs",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {}
+}
