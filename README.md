@@ -256,7 +256,7 @@ await nativeMessagingPerformanceTest(100, "nm_dart");
 
 Run `nm_dart`, `nm_lua`, `nm_zig` for comparsion of average time per host for 500 roundtrips
 ```devtools
-await nativeMessagingPerformanceTest(500, "nm_dart",);
+await nativeMessagingPerformanceTest(500, "nm_dart", "nm_lua", "nm_zig");
 ```
 
 ## Native messaging documentation
