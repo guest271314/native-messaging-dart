@@ -38,5 +38,65 @@ The Native Messaging host echoes back the message passed.
 
 For differences between OS and browser implementations see [Chrome incompatibilities](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Chrome_incompatibilities#native_messaging).
 
+### Test standalone
+
+#### Deno
+```shell
+deno -A ./nm_standalone_test.js ./nm_dart
+```
+#### Node.js
+```shell
+node ./nm_standalone_test_node.js ./nm_dart
+```
+
+Expected roundtrip of 
+
+```javascript
+try {
+  for (
+    const message of [
+      Array(209715),
+      "test",
+      "",
+      1,
+      new Uint8Array([97]),
+      Array(209715 * 64),
+    ]
+  ) {
+    const result = await echoNativeMessage(message);
+    console.log(result);
+  }
+} catch (e) {
+  console.log(e.stack);
+  console.trace();
+} finally {
+  subprocess.kill("SIGTERM");
+}
+
+```
+
+- 1 MiB JSON array filled with `null` values
+- JSON string `"test"`
+- JSON empty string `""`
+- JSON number `1`
+- JSON object `{0:97}`
+- 64 MiB of JSON arrays filled with `null` values at 1 MiB maximum JSON array length per message (see the Native Messaging protocol, below)
+
+## Native messaging documentation
+- [Chrome Developers](https://developer.chrome.com/docs/extensions/mv3/nativeMessaging/)
+- [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Native_messaging)
+- [Microsoft Edge Developer documentation](https://learn.microsoft.com/en-us/microsoft-edge/extensions-chromium/developer-guide/native-messaging)
+- [Messaging between the app and JavaScript in a Safari web extension](https://developer.apple.com/documentation/safariservices/messaging-between-the-app-and-javascript-in-a-safari-web-extension)
+- [Opera help Native messaging](https://help.opera.com/en/extensions/message-passing/#native-messaging)
+
+[Native messaging protocol](https://developer.chrome.com/docs/extensions/mv3/nativeMessaging/#native-messaging-host-protocol) (Chrome Developers)
+
+> Chrome starts each native messaging host in a separate process and communicates with it using standard input (`stdin`) and standard output (`stdout`). The same format is used to send messages in both directions; each message is serialized using JSON, UTF-8 encoded and is preceded with 32-bit message length in native byte order. The maximum size of a single message from the native messaging host is 1 MB, mainly to protect Chrome from misbehaving native applications. The maximum size of the message sent to the native messaging host is 64 MiB.
+>
+> The first argument to the native messaging host is the origin of the caller, usually `chrome-extension://[ID of allowed extension]`. This allows native messaging hosts to identify the source of the message when multiple extensions are specified in the allowed_origins key in the [native messaging host manifest](https://developer.chrome.com/docs/extensions/develop/concepts/native-messaging#native-messaging-host).
+
+
+
+
 ## License
 Do What the Fuck You Want to Public License [WTFPLv2](http://www.wtfpl.net/about/)
