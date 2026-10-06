@@ -1,8 +1,9 @@
 // Dart Native Messaging host
 // guest271314 10-4-2026
 //
-// bin/dart compile wasm ../native-messaging-dart/nm_dart.dart -o ../native-messaging-dart/nm_dart.wasm
-// bin/dart compile exe ../native-messaging-dart/nm_dart.dart --target-os=linux --target-arch=x64 -S ../native-messaging-dart/debug.txt -o ../native-messaging-dart/nm_dart
+// dart compile exe nm_dart.dart -S debug_dart.txt -o nm_dart
+// WASM doesn't work right now... No WASI
+// dart compile wasm nm_dart.dart -S debug_dart_wasm.txt -o nm_dart.wasm
 
 import 'dart:async';
 import 'dart:io';
